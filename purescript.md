@@ -20,14 +20,13 @@ maxScale: 1
 
   * Compiles to JS (and optionally to other backends)
 
-  * Clear interpretable JS with no runtime
-
   * Supports 
     + higher kinded types
     + poly kinds
     + row polymorphism 
     + generic programming 
-   ... to name a few
+
+  * Easy javascript FFI
 
 ## Comparison with other *compile to JS* frameworks
 
@@ -183,17 +182,154 @@ Ord                                T      T         T      Ord a     Ord a
 Semiring (add, zero, mul, one)     T      F         F       F         F
 Semigroup/Monoid (append/empty)    ?      T         ?       T        Semigroup a
 
-## Functors (map providers)
-  * Think containers
-  * Purescript's _map (<$>)_ is polymorphic in the container type and the contained value.
-  * As long as the container type in
+## Pure functions 
+  * `a -> b`
+  * but what if we want more ?
+
+### Effects
+  * `List a` - Returns multiple `a`'s
+  * `Maybe a` - May not return an `a`
+  * `Tuple a b` - Return an `a` with `a` payload
+  * `Reader r a` - Use a `r` to produce an `a`
+  * `Writer w a` - Produce an `a`, but log a `w`
+  * `State s a` - Produce an `a`, but use or update some state `s`
+  * `Parser a` - Consume some input and return an `a`
+  * `Effect a` - Nondeterministically get an `a`
+  * `Aff a` - An `Effect` ful callback which can consume an `a`
+
+## Functors
+  * Think containers or producers
+  * Purescript's `map` is polymorphic in the container type and the contained value.
+    + As long as the container type is mappable
+
   ```haskell
-    >:type map
+    class Functor f where
+      map :: forall f a b. (a -> b) -> f a -> f b
+
+    > :type map
     forall a b f. Functor f => (a -> b) -> f a -> f b
 
     incOver :: ∀ f. Functor f => f Int -> f Int
     incOver = map increment
   ```
+
   ```haskell
     data List a = Nil | Cons a (List a)
   ```
+### List is mappable
+
+  ```haskell
+    instance Functor List where
+      map f Nil         = Nil
+      map f (Cons a as) = Cons (f a) (map f as)
+  ```
+
+### But also
+  * `Maybe a`
+  * `Tuple a b`
+  * `Reader r a`
+  * `Writer w a`
+  * `State s a`
+  * `Parser a`
+  * `Effect a`
+  * `Aff a`
+
+### This is unlawful
+
+  ```haskell
+    instance Functor List where
+      map f Nil         = Nil
+      map f (Cons a as) = Nil
+  ```
+  difficult to reason about.
+
+##  
+  * `map` cannot 
+    * change the structure of the container 
+    * access the producer  
+  * what if we need to?
+
+### Monads
+  ```haskell
+  class Monad m where
+    bind :: forall a b. m a -> (a -> m b) -> m b
+
+  > :type bind -- The operator equivalent is >>=
+  forall f a b. Monad f => f a -> (a -> f b) -> f b
+
+  > :type  (=<<) -- bind -- (Flipped)
+  forall f a b. Monad f => (a -> f b) -> f a -> f b
+
+  > :type pure
+  forall a f. Monad f => a -> f a
+  ```
+### Lists are Monads
+  ```haskell
+  instance Monad List where
+    bind f Nil = Nil
+    bind f (Cons a as) = 
+      f a <> bind f as
+      where
+      Nil <> x = x
+      x <> Nil = x
+      (Cons x xs) <> ys = Cons x (xs <> ys)
+
+  incOverEvens :: List Int -> List Int
+  incOverEvens xs = 
+    (=<<) 
+      (\i -> if isEven i then Cons (i + 1) Nil else Nil)
+      xs
+  ```
+  ```haskell
+  > incOverEvens [1,2,3,4]
+  [1,4,3,8]
+  ```
+
+### `do` blocks  
+  + Convenient syntactic sugar 
+
+  ```haskell
+  incOverEvens' :: List Int -> List Int
+  incOverEvens' xs = do
+    i <- xs
+    if isEven i then Cons (i + 1) Nil else Nil
+  ```
+
+### `do` 'em all
+  ```haskell
+  -- Maybe
+  getLogTime :: String -> Maybe LocalTime
+  getLogTime logLine = do
+    obj <- Aeson.parse logLine
+    metaData <- Map.lookup obj "meta_data"
+    timeStampStr <- Map.lookup metaData "log_time"
+    parseTime "%d-%m-%Y %HH:%MM:%SS" timeStampStr
+  ```
+
+###  
+  ```haskell
+  -- Aff
+  getLastTxn :: String -> Aff (Maybe Txn)
+  getLastTxn customerId = do
+    accounts <- getAccounts customerId
+    if null accounts 
+    then pure Nothing
+    else do
+      txns <- for accounts getTxns
+      pure (maximumBy (compare `on` txnDate) txns)
+  ```
+
+## Purescript web frameworks
+  * `purescript-react`
+  * `purescript-flare`
+  * `purescript-presto`
+  * `purescript-virtual-dom`
+  * `purescript-halogen`
+  * `purescript-pux`
+
+## At Juspay
+  * Heavily used
+    + both on the backend and mobile UI
+  * English like code 
+    + `DSL`s using `Free Monad`s
+  * Bye bye callbacks
