@@ -28,6 +28,44 @@ maxScale: 1
 
   * Easy javascript FFI
 
+### Tools
+#### start
+  ```bash
+  $ npm i -g purescript pulp
+  $ mkdir trial; cd trial
+  $ pulp init
+  $ tree -a -L 2
+  .
+  ├── bower_components
+  │   ├── purescript-console
+  │   ├── purescript-effect
+  │   ├── purescript-prelude
+  │   └── purescript-psci-support
+  ├── bower.json
+  ├── .gitignore
+  ├── .purs-repl
+  ├── src
+  │   └── Main.purs
+  └── test
+      └── Main.purs
+
+  7 directories, 5 files
+  ```
+#### repl
+  ```bash
+  $ pulp repl
+  PSCi, version 0.12.2
+  Type :? for help
+
+  import Prelude
+
+  > import Data.Monoid
+  > :type (+)
+  forall a. Semiring a => a -> a -> a
+
+  >
+  ```
+
 ## Comparison with other *compile to JS* frameworks
 
 ### Typescript
@@ -44,6 +82,38 @@ maxScale: 1
   * Static
   * Pure
   * Easier ways to do polymorphism
+
+<!--### Scala.js-->
+  <!------------------------------------------------------------------------>
+  <!--Scala.js                                       Purescript-->
+  <!------------------------------- ---------------------------------------->
+  <!--```                                     -->
+  <!--println("Hello World!")                    log "Hello World!"-->
+                                             
+                                             
+  <!--class Person                               type Person = -->
+   <!--( val firstName: String                       { firstName :: String-->
+   <!--, val lastName: String) {                     , lastName :: String }-->
+     <!--def fullName(): String =                  -->
+       <!--s"$firstName $lastName"               fullName :: Person -> String-->
+   <!--}                                         fullName p = -->
+                                             <!--p.firstName <> " " <> p.lastName-->
+                                             
+  <!--val names =                                names = _.firstName <$> persons-->
+    <!--persons.map(_.firstName)                 -->
+                                             
+  <!--val personMap = Map(                       personMap = Map.fromFoldable-->
+    <!--10 -> new Person("Roger", "Moore"),        [ (10, rogerMoore)-->
+    <!--20 -> new Person("James", "Bond")          , (20, jamesBond)-->
+  <!--)                                            ]-->
+  <!--val names = for {                          names = -->
+    <!--(key, person) <- personMap                 map (\(k, v) -> -->
+                                                <!--show k <> " = " <> v.firstName)-->
+    <!--if key > 15                                <<< Map.toUnfoldable-->
+  <!--} yield s"$key = ${person.firstName}"        <<< Map.filterKeys (_ > 15)-->
+  <!--```-->
+  <!------------------------------------------------------------------------>
+
 
 ## Why you should consider strong types
   * Change a huge class of runtime bugs into compile time errors
@@ -102,28 +172,30 @@ maxScale: 1
 ### Function types
 
   ```haskell
-  -- Can't be defined, but we can assume this is the shape
+  -- Can't be defined
+  -- but we can assume this is the shape
   data Function a b = Function (a -> b)
   ```
+  a tabulation of inputs to outputs
 
 ## Functions in detail
   * All functions are curried.  
-    they take a single argument and return a single argument  
-    ```haskell
-    add :: Int -> (Int -> Int)
-    add x y = x + y
-    -- or
-    add x = \y -> x + y
-    -- or
-    add = \x -> \y -> x + y
-    ```
+    * they take a single argument and return a single argument  
+  ```haskell
+  add :: Int -> (Int -> Int)
+  add x y = x + y
+  -- or
+  add x = \y -> x + y
+  -- or
+  add = \x -> \y -> x + y
+  ```
   * Partial Application
     ```haskell
     increment :: Int -> Int
     increment = add 1
     ```
 
-### Pattern matching with _case_ statements
+### Pattern matching
   ```haskell
   data Direction = N | S | E | W
   data Coordinates = Coordinates { x :: Int, y :: Int }
@@ -169,18 +241,18 @@ maxScale: 1
 ## Type-classes
   * Sets of types with the same behavior
     + Somewhat like interfaces in Java
-    + Are hierarchical
+    + Can be hierarchical
     + The proof that the type is a member of the set is called an instance
 
 ### Examples
 
 TypeClass\\Types                    Int   String   Bool   List a    Maybe a
 ---------------                   ------ -------   ----   ------    -------
-Show (representable as String)     T      T         T      Show a    Show a
-Eq                                 T      T         T      Eq a      Eq a
-Ord                                T      T         T      Ord a     Ord a
-Semiring (add, zero, mul, one)     T      F         F       F         F
-Semigroup/Monoid (append/empty)    ?      T         ?       T        Semigroup a
+`Show` (representable as String)     T      T         T      Show a    Show a
+`Eq`                                 T      T         T      Eq a      Eq a
+`Ord`                                T      T         T      Ord a     Ord a
+`Semiring` (add, zero, mul, one)     T      F         F       F         F
+`Semigroup/Monoid` (append/empty)    ?      T         ?       T        Semigroup a
 
 ## Pure functions 
   * `a -> b`
@@ -401,16 +473,22 @@ Semigroup/Monoid (append/empty)    ?      T         ?       T        Semigroup a
   ```
 
 ## Purescript web frameworks
+  * Elm like 
+    * `purescript-pux`
+    * `purescript-thermite`
+  * Component based
+    * `purescript-halogen`
   * `purescript-react`
-  * `purescript-flare`
+  * FRP based
+    * `purescript-flare`
+    * `purescript-specular`
   * `purescript-presto`
   * `purescript-virtual-dom`
-  * `purescript-halogen`
-  * `purescript-pux`
 
 ## At Juspay
   * Heavily used
     + both on the backend and mobile UI
+    + frontend count > 10000 LOC
   * English like code 
     + `DSL`s using `Free Monad`s
   * Bye bye callbacks
