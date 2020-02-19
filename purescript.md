@@ -2,7 +2,7 @@
 fontsize: 11pt
 title: Purescript
 width: 960
-height: 700
+height: 800
 margin: 0.2
 minScale: 0.2
 maxScale: 1
@@ -16,7 +16,7 @@ maxScale: 1
 ## About Purescript
   * A pure functional (Haskell inspired) language
     + Written in Haskell
-    + Non - lazy evaluation
+    + Non - lazy evaluation (like JS)
 
   * Compiles to JS (and optionally to other backends)
 
@@ -36,8 +36,8 @@ maxScale: 1
   * Not a superset of JS
 
 ### Elm
-  * Less polymorphic
-  * No support for type classes
+  * More polymorphic
+  * Support for type classes
   * No runtime
 
 ### Clojurescript
@@ -49,14 +49,14 @@ maxScale: 1
   * Change a huge class of runtime bugs into compile time errors
     ```haskell
       employee = { name: "Paul", company: "Juspay" }
-      log (toUpper(employee.email)) -- A compile error
+      log(toUpper(employee.email)) -- A compile error
     ```
   * Better debugging
   * Easier development
 
 ## Overview of types in Purescript
   Types are _disjoint_ sets of values  
-  No _subtyping_ (except with row polymorphism)
+  No _subtyping_ in the traditional sense (except with row polymorphism)
 
 ### Sum types
   - Cardinality is the sum of cardinalities
@@ -277,7 +277,7 @@ Semigroup/Monoid (append/empty)    ?      T         ?       T        Semigroup a
   incOverEvens :: List Int -> List Int
   incOverEvens xs = 
     (=<<) 
-      (\i -> if isEven i then Cons (i + 1) Nil else Nil)
+      (\i -> if isEven i then Cons (i + 1) Nil else Cons i Nil)
       xs
   ```
   ```haskell
@@ -317,6 +317,87 @@ Semigroup/Monoid (append/empty)    ?      T         ?       T        Semigroup a
     else do
       txns <- for accounts getTxns
       pure (maximumBy (compare `on` txnDate) txns)
+  ```
+
+## Interacting with JS
+### Importing JS funcions
+  *  Curried
+  ```javascript
+  exports.add = function(i) {
+    return function(j) {
+        return i + j; 
+    }; 
+  }
+  ```
+  ```haskell
+  foreign import add :: Int -> Int -> Int
+  ```
+  * Uncurried
+  ```javascript
+  exports.add = function(i, j) { return i + j; }
+  ```
+  ```haskell
+  foreign import add :: Fn2 Int Int Int
+  ```
+
+### Importing JS types
+#### Primitives
+  ```javascript
+  exports.foo = "bar";
+  exports.i = 5;
+  exports.hasProp = true;
+  exports.arr = [1,2,3]; 
+  // Cannot import an array with multiple types
+  exports.employee = { name: "Paul", company: "Juspay" };
+  ```
+  ```haskell
+  foreign import foo :: String
+  foreign import i :: Int
+  foreign import hasProp :: Boolean
+  foreign import arr :: Array Int
+  foreign import employee :: { name :: String, company :: String }
+  ```
+
+#### When JS types are unknown
+
+  ```javascript
+  exports.foo = "bar";
+  ```
+  ```haskell
+  foreign import foo :: Foreign
+  -- readString 
+  --   :: Foreign 
+  --   -> F String -- Except MultipleErrors String
+  exclaimFoo :: F String
+  exclaimFoo = (\s -> s <> "!!") <$> readString foo
+  ```
+
+### Exporting purescript funcions
+  ```haskell
+    add :: Fn2 Int Int Int
+    add = mkFn2 add'
+
+    add' :: Int -> Int -> Int
+    add' i j = i + j
+  ```
+  ```js
+  // In the generated JS code.
+  add(4,2)
+  ```
+
+### Effects
+  ```javascript
+  exports.logFormatted = function(tag){
+    return function(message){
+      return function(){
+        var dateStr = (new Date).toISOString();
+        console.log("[" + tag + "] " + dateStr + message);
+      }
+    }
+  }
+  ```
+  ```haskell
+  foreign import logFormatted :: String -> String -> Effect Unit
   ```
 
 ## Purescript web frameworks
