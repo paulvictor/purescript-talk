@@ -13,6 +13,20 @@ maxScale: 1
   Paul Victor Raj
   @JUSPAY
 
+## Guess what is the output?
+###
+
+  ```javascript
+  parseInt("10")
+  ```
+  ???
+
+###
+  ```javascript
+  ["10", "10", "10", "10"].map(parseInt)
+  ```
+  ???
+
 ## About Purescript
   * A pure functional (Haskell inspired) language
     + Written in Haskell
@@ -488,7 +502,7 @@ TypeClass\\Types                    Int   String   Bool   List a    Maybe a
 ## At Juspay
   * Heavily used
     + both on the backend and mobile UI
-    + frontend count > 10000 LOC
+    + frontend count > 100000 LOC
   * English like code 
     + `DSL`s using `Free Monad`s
   * Bye bye callbacks
