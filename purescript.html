@@ -103,22 +103,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="purescript---js-you-can-reason-about" class="title-slide slide level2"><h2>Purescript - JS you can <em>reason</em> about</h2><p>Paul Victor Raj <span class="citation" data-cites="JUSPAY">@JUSPAY</span></p></section>
 <section><section id="guess-what-is-the-output" class="title-slide slide level2"><h2>Guess what is the output?</h2></section><section id="section" class="title-slide slide level3"><h3></h3><div class="sourceCode" id="cb1"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1"></a><span class="at">parseInt</span>(<span class="st">&quot;10&quot;</span>)</span></code></pre></div>
 <p>???</p></section><section id="section-1" class="title-slide slide level3"><h3></h3><div class="sourceCode" id="cb2"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1"></a>[<span class="st">&quot;10&quot;</span><span class="op">,</span> <span class="st">&quot;10&quot;</span><span class="op">,</span> <span class="st">&quot;10&quot;</span><span class="op">,</span> <span class="st">&quot;10&quot;</span>].<span class="at">map</span>(parseInt)</span></code></pre></div>
-<p>???</p></section></section>
+<p>???</p></section><section id="section-2" class="title-slide slide level3"><h3></h3><blockquote>
+<p>JS IS AN ESSENTIAL EVIL !!</p>
+</blockquote>
+<p><img data-src="js.jpg" title="Javascript" /></p></section></section>
 <section><section id="about-purescript" class="title-slide slide level2"><h2>About Purescript</h2><ul>
 <li><p>A pure functional (Haskell inspired) language</p>
 <ul>
 <li>Written in Haskell</li>
 <li>Non - lazy evaluation (like JS)</li>
 </ul></li>
-<li><p>Compiles to JS (and optionally to other backends)</p></li>
-<li><p>Supports</p>
-<ul>
-<li>higher kinded types</li>
-<li>poly kinds</li>
-<li>row polymorphism</li>
-<li>generic programming</li>
-</ul></li>
+<li><p>Compiles to JS <!-- (and optionally to other backends) --></p></li>
 <li><p>Easy javascript FFI</p></li>
+<li><p>Find bugs as you type</p></li>
+<li><p>Let the compiler guide you while writing code <!--* Supports --> <!--+ higher kinded types--> <!--+ poly kinds--> <!--+ row polymorphism --> <!--+ generic programming --></p></li>
 </ul></section><section id="tools" class="title-slide slide level3"><h3>Tools</h3></section><section id="start" class="title-slide slide level4"><h4>start</h4><div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1"></a>$ <span class="ex">npm</span> i -g purescript pulp</span>
 <span id="cb3-2"><a href="#cb3-2"></a>$ <span class="fu">mkdir</span> trial<span class="kw">;</span> <span class="bu">cd</span> trial</span>
 <span id="cb3-3"><a href="#cb3-3"></a>$ <span class="ex">pulp</span> init</span>
@@ -148,158 +146,174 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-9"><a href="#cb4-9"></a><span class="ex">forall</span> a. Semiring a =<span class="op">&gt;</span> a -<span class="op">&gt;</span> a -<span class="op">&gt;</span> a</span>
 <span id="cb4-10"><a href="#cb4-10"></a></span>
 <span id="cb4-11"><a href="#cb4-11"></a><span class="op">&gt;</span></span></code></pre></div></section></section>
-<section><section id="comparison-with-other-compile-to-js-frameworks" class="title-slide slide level2"><h2>Comparison with other <em>compile to JS</em> frameworks</h2></section><section id="typescript" class="title-slide slide level3"><h3>Typescript</h3><ul>
+<section><section id="comparison-with-other-compile-to-js-frameworks" class="title-slide slide level2"><h2>Comparison with other <em>compile to JS</em> frameworks</h2></section><section id="clojurescript" class="title-slide slide level3"><h3>Clojurescript</h3><ul>
+<li>Static
+<ul>
+<li>Types can actually avoid a whole class of bugs</li>
+</ul></li>
+<li>Purescript is pure
+<ul>
+<li>No side effects without making them explicit</li>
+</ul></li>
+</ul></section><section id="typescript" class="title-slide slide level3"><h3>Typescript</h3></section><section id="can-be-more-verbose-than-js" class="title-slide slide level4"><h4>Can be more verbose than JS</h4><div class="sourceCode" id="cb5"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">let</span> apolloContext<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="im">export</span> <span class="kw">function</span> <span class="at">getApolloContext</span>() <span class="op">{</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>  <span class="cf">if</span> (<span class="op">!</span>apolloContext) <span class="op">{</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>    apolloContext <span class="op">=</span> <span class="va">React</span>.<span class="at">createContext</span>(<span class="op">{}</span>)<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>  <span class="op">}</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>  <span class="cf">return</span> apolloContext<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="op">}</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="im">export</span> <span class="kw">function</span> <span class="at">resetApolloContext</span>() <span class="op">{</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a>  apolloContext <span class="op">=</span> <span class="va">React</span>.<span class="at">createContext</span>(<span class="op">{}</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">export</span> <span class="kw">interface</span> ApolloContextValue <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>  client<span class="op">?:</span> ApolloClient<span class="op">&lt;</span><span class="dt">object</span><span class="op">&gt;;</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>  renderPromises<span class="op">?:</span> Record<span class="op">&lt;</span><span class="dt">any</span><span class="op">,</span> <span class="dt">any</span><span class="op">&gt;;</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="op">}</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="kw">let</span> apolloContext<span class="op">:</span> <span class="va">React</span><span class="op">.</span><span class="at">Context</span><span class="op">&lt;</span>ApolloContextValue<span class="op">&gt;;</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="im">export</span> <span class="kw">function</span> <span class="fu">getApolloContext</span>() <span class="op">{</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>  <span class="fu">if</span> (<span class="op">!</span>apolloContext) <span class="op">{</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>    apolloContext <span class="op">=</span> <span class="va">React</span><span class="op">.</span><span class="fu">createContext</span><span class="op">&lt;</span>ApolloContextValue<span class="op">&gt;</span>(<span class="op">{}</span>)<span class="op">;</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>  <span class="op">}</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a>  <span class="cf">return</span> apolloContext<span class="op">;</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="op">}</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="im">export</span> <span class="kw">function</span> <span class="fu">resetApolloContext</span>() <span class="op">{</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a>  apolloContext <span class="op">=</span> <span class="va">React</span><span class="op">.</span><span class="fu">createContext</span><span class="op">&lt;</span>ApolloContextValue<span class="op">&gt;</span>(<span class="op">{}</span>)<span class="op">;</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="op">}</span></span></code></pre></div></section><section id="section-3" class="title-slide slide level4"><h4></h4><blockquote>
+<p>The only thing worse than being blind is having sight but no vision.<br />
+- Helen Keller</p>
+</blockquote></section><section id="with-typescript" class="title-slide slide level4"><h4>With Typescript</h4><ul>
+<li>Trust the dev to write proper types</li>
+<li><code>any</code> can be a problem
+<ul>
+<li><code>unknown</code> still doesn’t cut it right</li>
+</ul></li>
+<li>No protection against side effects<br />
+</li>
+<li>Immutability only by choice</li>
+</ul></section><section id="purescript-vs-typescript" class="title-slide slide level4"><h4>Purescript vs Typescript</h4><ul>
+<li><p>Separation of <code>effect</code>full code from others</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1"></a><span class="ot">  add ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>  add x y <span class="ot">=</span> x <span class="op">+</span> y</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1"></a>  <span class="kw">function</span> <span class="fu">add</span>(a<span class="op">:</span> <span class="dt">number</span><span class="op">,</span> b<span class="op">:</span> <span class="dt">number</span>)<span class="op">:</span><span class="dt">number</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>    <span class="kw">var</span> resultFromCache <span class="op">=</span> </span>
+<span id="cb8-3"><a href="#cb8-3"></a>      <span class="va">addCache</span><span class="op">.</span><span class="fu">lookup</span>(<span class="fu">keyFrom</span>(a<span class="op">,</span>b))<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>    <span class="fu">if</span> (resultFromCache <span class="op">==</span> <span class="kw">null</span>)<span class="op">{</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a>      <span class="kw">var</span> result <span class="op">=</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>      <span class="co">// some code to insert into the addCache</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a>      <span class="cf">return</span> result<span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a>      <span class="cf">return</span> resultFromCache<span class="op">;</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a>    <span class="op">}</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a>  <span class="op">}</span></span></code></pre></div></li>
+</ul></section><section id="same-code-in-purescript" class="title-slide slide level4"><h4>Same code in Purescript</h4><div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1"></a><span class="ot">add ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Effect</span> <span class="dt">Int</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>add x y <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>  maybeResult <span class="ot">&lt;-</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>    <span class="fu">lookup</span> addCache <span class="op">$</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a>      keyFrom x y</span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="kw">case</span> maybeResult <span class="kw">of</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>    <span class="dt">Just</span> r <span class="ot">-&gt;</span> <span class="fu">pure</span> r</span>
+<span id="cb9-8"><a href="#cb9-8"></a>    <span class="dt">Nothing</span> <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a>      result <span class="ot">&lt;-</span> <span class="fu">pure</span> <span class="op">$</span> x <span class="op">+</span> y</span>
+<span id="cb9-10"><a href="#cb9-10"></a>      insert addCache (keyFor x y) result</span>
+<span id="cb9-11"><a href="#cb9-11"></a>      <span class="fu">pure</span> result</span></code></pre></div></section><section id="more-brownie-points" class="title-slide slide level4"><h4>More brownie points</h4><ul>
 <li>More concise syntax</li>
-<li>Better and stricter type inference</li>
-<li>Not a superset of JS</li>
-</ul></section><section id="elm" class="title-slide slide level3"><h3>Elm</h3><ul>
-<li>More polymorphic</li>
-<li>Support for type classes</li>
-<li>No runtime</li>
-</ul></section><section id="clojurescript" class="title-slide slide level3"><h3>Clojurescript</h3><ul>
-<li>Static</li>
-<li>Pure</li>
-<li>Easier ways to do polymorphism</li>
-</ul>
-<!--### Scala.js-->
-<p><!------------------------------------------------------------------------> <!--Scala.js                                       Purescript--> <!------------------------------- ----------------------------------------> <!--```                                     --> <!--println("Hello World!")                    log "Hello World!"--></p>
-<p><!--class Person                               type Person = --> <!--( val firstName: String                       { firstName :: String--> <!--, val lastName: String) {                     , lastName :: String }--> <!--def fullName(): String =                  --> <!--s"$firstName $lastName"               fullName :: Person -> String--> <!--}                                         fullName p = --> <!--p.firstName <> " " <> p.lastName--></p>
-<p><!--val names =                                names = _.firstName <$> persons--> <!--persons.map(_.firstName)                 --></p>
-<p><!--val personMap = Map(                       personMap = Map.fromFoldable--> <!--10 -> new Person("Roger", "Moore"),        [ (10, rogerMoore)--> <!--20 -> new Person("James", "Bond")          , (20, jamesBond)--> <!--)                                            ]--> <!--val names = for {                          names = --> <!--(key, person) <- personMap                 map (\(k, v) -> --> <!--show k <> " = " <> v.firstName)--> <!--if key > 15                                <<< Map.toUnfoldable--> <!--} yield s"$key = ${person.firstName}"        <<< Map.filterKeys (_ > 15)--> <!--```--> <!------------------------------------------------------------------------></p></section></section>
-<section id="why-you-should-consider-strong-types" class="title-slide slide level2"><h2>Why you should consider strong types</h2><ul>
+<li>Compiler doesn’t let you push incomplete functions through
+<ul>
+<li>Exhaustive Pattern matching</li>
+</ul></li>
+<li>Type hole drived development</li>
+<li>Complemented by the superior type inference mechanism</li>
+</ul></section><section id="purescript-juspay" class="title-slide slide level4"><h4>Purescript @ Juspay</h4><ul>
+<li>Looking at the type signature of a function tells a lot about it</li>
+<li>You can’t really mess up a pure function
+<ul>
+<li>Write tests for your pure code</li>
+<li>Review your impure code</li>
+<li>Keep impurities to a minimum and at the fringes</li>
+</ul></li>
+<li>Write production-ready code</li>
+<li>ART
+<ul>
+<li>Automatic Regression Testing</li>
+</ul></li>
+</ul></section></section>
+<section><section id="why-you-should-consider-strong-types" class="title-slide slide level2"><h2>Why you should consider strong types</h2></section><section id="section-4" class="title-slide slide level3"><h3></h3><blockquote>
+<p>A good friend will always stab you in the front<br />
+- Oscar Wilde</p>
+</blockquote></section><section id="section-5" class="title-slide slide level3"><h3></h3><ul>
 <li><p>Change a huge class of runtime bugs into compile time errors</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1"></a>  employee <span class="ot">=</span> { name<span class="op">:</span> <span class="st">&quot;Paul&quot;</span>, company<span class="op">:</span> <span class="st">&quot;Juspay&quot;</span> }</span>
-<span id="cb5-2"><a href="#cb5-2"></a>  <span class="fu">log</span>(<span class="fu">toUpper</span>(employee<span class="op">.</span>email)) <span class="co">-- A compile error</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1"></a>  employee <span class="ot">=</span> { name<span class="op">:</span> <span class="st">&quot;Paul&quot;</span>, company<span class="op">:</span> <span class="st">&quot;Juspay&quot;</span> }</span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">log</span>(<span class="fu">toUpper</span>(employee<span class="op">.</span>email)) <span class="co">-- A compile error</span></span></code></pre></div></li>
 <li><p>Better debugging</p></li>
-<li><p>Easier development</p></li>
-</ul></section>
+<li><p>Better development cycles</p></li>
+</ul></section></section>
 <section><section id="overview-of-types-in-purescript" class="title-slide slide level2"><h2>Overview of types in Purescript</h2><p>Types are <em>disjoint</em> sets of values<br />
 No <em>subtyping</em> in the traditional sense (except with row polymorphism)</p></section><section id="sum-types" class="title-slide slide level3"><h3>Sum types</h3><ul>
-<li>Cardinality is the sum of cardinalities</li>
+<li>Used to denote alternatives</li>
 <li>Correspond to enums in most programming languages</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">data</span> <span class="dt">Either</span> a b <span class="co">-- Either is the Type Constructor</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>  <span class="ot">=</span> <span class="dt">Left</span> a</span>
-<span id="cb6-3"><a href="#cb6-3"></a>  <span class="op">|</span> <span class="dt">Right</span> b <span class="co">-- Left and Right are Data Constructors</span></span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1"></a><span class="dt">Left</span><span class="ot"> ::</span> <span class="kw">forall</span> a b<span class="op">.</span> a <span class="ot">-&gt;</span> <span class="dt">Either</span> a b</span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">data</span> <span class="dt">PaymentStatus</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>  <span class="ot">=</span> <span class="dt">SuccessAmountPaid</span> <span class="dt">Double</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>  <span class="op">|</span> <span class="dt">UnAuthenticated</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a>  <span class="op">|</span> <span class="dt">GatewayTimeout</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a>  <span class="op">|</span> <span class="dt">NotSufficientBalance</span></span></code></pre></div></section><section id="product-types" class="title-slide slide level3"><h3>Product types</h3><ul>
-<li>Cardinality is the product of cardinalities</li>
+<p><!--```haskell--> <!--data Either a b -- Either is the Type Constructor--> <!--= Left a--> <!--| Right b -- Left and Right are Data Constructors--> <!--```--> <!--```haskell--> <!--Left :: a -> Either a b--> <!--```--></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">data</span> <span class="dt">HTTPMethod</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="ot">=</span> <span class="dt">GET</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="op">|</span> <span class="dt">HEAD</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="op">|</span> <span class="dt">POST</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>  <span class="op">|</span> <span class="dt">PATCH</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a>  <span class="op">|</span> <span class="dt">DELETE</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a>  <span class="op">|</span> <span class="dt">Other</span> <span class="dt">String</span></span></code></pre></div></section><section id="product-types" class="title-slide slide level3"><h3>Product types</h3><ul>
+<li>Used to denote combination of values</li>
 <li>Correspond to structs, objects in most programming languages</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">data</span> <span class="dt">Tuple</span> a b </span>
-<span id="cb9-2"><a href="#cb9-2"></a>  <span class="ot">=</span> <span class="dt">Tuple</span> a b</span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">data</span> <span class="dt">Customer</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>  <span class="ot">=</span> <span class="dt">Customer</span> </span>
-<span id="cb10-3"><a href="#cb10-3"></a>    <span class="dt">String</span> <span class="co">-- Name</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a>    <span class="dt">Int</span> <span class="co">-- Age</span></span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">data</span> <span class="dt">Customer</span> </span>
-<span id="cb11-2"><a href="#cb11-2"></a>  <span class="ot">=</span> <span class="dt">Customer</span> </span>
-<span id="cb11-3"><a href="#cb11-3"></a>  {<span class="ot"> name ::</span> <span class="dt">String</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a>  ,<span class="ot"> age ::</span> <span class="dt">Int</span> }</span></code></pre></div></section><section id="function-types" class="title-slide slide level3"><h3>Function types</h3><div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">-- Can&#39;t be defined</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co">-- but we can assume this is the shape</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="kw">data</span> <span class="dt">Function</span> a b <span class="ot">=</span> <span class="dt">Function</span> (a <span class="ot">-&gt;</span> b)</span></code></pre></div>
+<p><!--```haskell--> <!--data Tuple a b --> <!--= Tuple a b--> <!--```--></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">data</span> <span class="dt">Customer</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="ot">=</span> <span class="dt">Customer</span> </span>
+<span id="cb12-3"><a href="#cb12-3"></a>    <span class="dt">String</span> <span class="co">-- Name</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>    <span class="dt">Int</span> <span class="co">-- Age</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">data</span> <span class="dt">Customer</span> </span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="ot">=</span> <span class="dt">Customer</span> </span>
+<span id="cb13-3"><a href="#cb13-3"></a>  {<span class="ot"> name ::</span> <span class="dt">String</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>  ,<span class="ot"> age ::</span> <span class="dt">Int</span> }</span></code></pre></div></section><section id="function-types" class="title-slide slide level3"><h3>Function types</h3><div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">-- Can&#39;t be defined</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="co">-- but we can assume this is the shape</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="kw">data</span> <span class="dt">Function</span> a b <span class="ot">=</span> <span class="dt">Function</span> (a <span class="ot">-&gt;</span> b)</span></code></pre></div>
 <p>a tabulation of inputs to outputs</p></section></section>
 <section><section id="functions-in-detail" class="title-slide slide level2"><h2>Functions in detail</h2><ul>
 <li><p>All functions are curried.</p>
 <ul>
 <li><p>they take a single argument and return a single argument</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1"></a><span class="ot">add ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> (<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>)</span>
-<span id="cb13-2"><a href="#cb13-2"></a>add x y <span class="ot">=</span> x <span class="op">+</span> y</span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="co">-- or</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a>add x <span class="ot">=</span> \y <span class="ot">-&gt;</span> x <span class="op">+</span> y</span>
-<span id="cb13-5"><a href="#cb13-5"></a><span class="co">-- or</span></span>
-<span id="cb13-6"><a href="#cb13-6"></a>add <span class="ot">=</span> \x <span class="ot">-&gt;</span> \y <span class="ot">-&gt;</span> x <span class="op">+</span> y</span></code></pre></div></li>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1"></a><span class="ot">add ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> (<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>)</span>
+<span id="cb15-2"><a href="#cb15-2"></a>add x y <span class="ot">=</span> x <span class="op">+</span> y</span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="co">-- or</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a>add x <span class="ot">=</span> \y <span class="ot">-&gt;</span> x <span class="op">+</span> y</span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="co">-- or</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a>add <span class="ot">=</span> \x <span class="ot">-&gt;</span> \y <span class="ot">-&gt;</span> x <span class="op">+</span> y</span></code></pre></div></li>
 </ul></li>
 <li><p>Partial Application</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1"></a><span class="ot">increment ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>increment <span class="ot">=</span> add <span class="dv">1</span></span></code></pre></div></li>
-</ul></section><section id="pattern-matching" class="title-slide slide level3"><h3>Pattern matching</h3><div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">data</span> <span class="dt">Direction</span> <span class="ot">=</span> <span class="dt">N</span> <span class="op">|</span> <span class="dt">S</span> <span class="op">|</span> <span class="dt">E</span> <span class="op">|</span> <span class="dt">W</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="kw">data</span> <span class="dt">Coordinates</span> <span class="ot">=</span> <span class="dt">Coordinates</span> {<span class="ot"> x ::</span> <span class="dt">Int</span>,<span class="ot"> y ::</span> <span class="dt">Int</span> }</span>
-<span id="cb15-3"><a href="#cb15-3"></a></span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="co">-- Currying</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a><span class="ot">move ::</span> <span class="dt">Direction</span> <span class="ot">-&gt;</span> <span class="dt">Coordinates</span> <span class="ot">-&gt;</span> <span class="dt">Coordinates</span></span>
-<span id="cb15-6"><a href="#cb15-6"></a>move <span class="dt">N</span> (<span class="dt">Coordinates</span> { x, y }) <span class="ot">=</span> <span class="dt">Coordinates</span> { x, y<span class="op">:</span> y <span class="op">+</span> <span class="dv">1</span> }</span>
-<span id="cb15-7"><a href="#cb15-7"></a>move <span class="dt">S</span> (<span class="dt">Coordinates</span> { x, y }) <span class="ot">=</span> <span class="dt">Coordinates</span> { x, y<span class="op">:</span> y <span class="op">-</span> <span class="dv">1</span> }</span>
-<span id="cb15-8"><a href="#cb15-8"></a>move <span class="dt">E</span> (<span class="dt">Coordinates</span> { x, y }) <span class="ot">=</span> <span class="dt">Coordinates</span> { x<span class="op">:</span> x <span class="op">+</span> <span class="dv">1</span>, y }</span>
-<span id="cb15-9"><a href="#cb15-9"></a>move <span class="dt">W</span> (<span class="dt">Coordinates</span> { x, y }) <span class="ot">=</span> <span class="dt">Coordinates</span> { x<span class="op">:</span> x <span class="op">-</span> <span class="dv">1</span>, y }</span></code></pre></div></section><section id="partial-application" class="title-slide slide level3"><h3>Partial Application</h3><div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1"></a><span class="ot">moveNorth ::</span> <span class="dt">Coordinates</span> <span class="ot">-&gt;</span> <span class="dt">Coordinates</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a>moveNorth <span class="ot">=</span> move <span class="dt">N</span></span></code></pre></div></section><section id="composition" class="title-slide slide level3"><h3>Composition</h3><ul>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1"></a><span class="ot">increment ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>increment <span class="ot">=</span> add <span class="dv">1</span></span></code></pre></div></li>
+</ul></section><section id="pattern-matching" class="title-slide slide level3"><h3>Pattern matching</h3><div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">data</span> <span class="dt">Direction</span> <span class="ot">=</span> <span class="dt">N</span> <span class="op">|</span> <span class="dt">S</span> <span class="op">|</span> <span class="dt">E</span> <span class="op">|</span> <span class="dt">W</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="kw">data</span> <span class="dt">Coordinates</span> <span class="ot">=</span> <span class="dt">Coordinates</span> {<span class="ot"> x ::</span> <span class="dt">Int</span>,<span class="ot"> y ::</span> <span class="dt">Int</span> }</span>
+<span id="cb17-3"><a href="#cb17-3"></a></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="co">-- Currying</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a><span class="ot">move ::</span> <span class="dt">Direction</span> <span class="ot">-&gt;</span> <span class="dt">Coordinates</span> <span class="ot">-&gt;</span> <span class="dt">Coordinates</span></span>
+<span id="cb17-6"><a href="#cb17-6"></a>move <span class="dt">N</span> (<span class="dt">Coordinates</span> { x, y }) <span class="ot">=</span> <span class="dt">Coordinates</span> { x, y<span class="op">:</span> y <span class="op">+</span> <span class="dv">1</span> }</span>
+<span id="cb17-7"><a href="#cb17-7"></a>move <span class="dt">S</span> (<span class="dt">Coordinates</span> { x, y }) <span class="ot">=</span> <span class="dt">Coordinates</span> { x, y<span class="op">:</span> y <span class="op">-</span> <span class="dv">1</span> }</span>
+<span id="cb17-8"><a href="#cb17-8"></a>move <span class="dt">E</span> (<span class="dt">Coordinates</span> { x, y }) <span class="ot">=</span> <span class="dt">Coordinates</span> { x<span class="op">:</span> x <span class="op">+</span> <span class="dv">1</span>, y }</span>
+<span id="cb17-9"><a href="#cb17-9"></a>move <span class="dt">W</span> (<span class="dt">Coordinates</span> { x, y }) <span class="ot">=</span> <span class="dt">Coordinates</span> { x<span class="op">:</span> x <span class="op">-</span> <span class="dv">1</span>, y }</span></code></pre></div>
+<ul>
+<li>Matching patterns has to be complete</li>
+</ul></section><section id="partial-application" class="title-slide slide level3"><h3>Partial Application</h3><div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1"></a><span class="ot">moveNorth ::</span> <span class="dt">Coordinates</span> <span class="ot">-&gt;</span> <span class="dt">Coordinates</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a>moveNorth <span class="ot">=</span> move <span class="dt">N</span></span></code></pre></div></section><section id="composition" class="title-slide slide level3"><h3>Composition</h3><ul>
 <li><em>&gt;&gt;&gt;</em> and <em>&lt;&lt;&lt;</em></li>
 </ul>
-<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1"></a>(<span class="op">&gt;&gt;&gt;</span>) f g <span class="ot">=</span> \a <span class="ot">-&gt;</span> g (f a)</span>
-<span id="cb17-2"><a href="#cb17-2"></a>(<span class="op">&lt;&lt;&lt;</span>) f g <span class="ot">=</span> \a <span class="ot">-&gt;</span> f (g a)</span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1"></a><span class="ot">moveNE ::</span> <span class="dt">Coordinates</span> <span class="ot">-&gt;</span> <span class="dt">Coordinates</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a>moveNE <span class="ot">=</span> move <span class="dt">N</span> <span class="op">&gt;&gt;&gt;</span> move <span class="dt">E</span></span></code></pre></div></section></section>
-<section id="scrap-your-null-checks-and-npes" class="title-slide slide level2"><h2>Scrap your <em>null</em> checks and NPE’s</h2><div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">data</span> <span class="dt">Maybe</span> a <span class="ot">=</span> <span class="dt">Nothing</span> <span class="op">|</span> <span class="dt">Just</span> a</span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1"></a><span class="ot">divide ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></span>
-<span id="cb20-2"><a href="#cb20-2"></a>divide <span class="dv">0</span> <span class="dv">0</span> <span class="ot">=</span> <span class="dt">Nothing</span></span>
-<span id="cb20-3"><a href="#cb20-3"></a>divide x y <span class="ot">=</span> <span class="dt">Just</span> (x <span class="op">/</span> y)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1"></a>(<span class="op">&gt;&gt;&gt;</span>) f g <span class="ot">=</span> \a <span class="ot">-&gt;</span> g (f a)</span>
+<span id="cb19-2"><a href="#cb19-2"></a>(<span class="op">&lt;&lt;&lt;</span>) f g <span class="ot">=</span> \a <span class="ot">-&gt;</span> f (g a)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1"></a><span class="ot">moveNE ::</span> <span class="dt">Coordinates</span> <span class="ot">-&gt;</span> <span class="dt">Coordinates</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a>moveNE <span class="ot">=</span> move <span class="dt">N</span> <span class="op">&gt;&gt;&gt;</span> move <span class="dt">E</span></span></code></pre></div></section></section>
+<section id="scrap-your-null-checks-and-npes" class="title-slide slide level2"><h2>Scrap your <em>null</em> checks and NPE’s</h2><div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw">data</span> <span class="dt">Maybe</span> a <span class="ot">=</span> <span class="dt">Nothing</span> <span class="op">|</span> <span class="dt">Just</span> a</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1"></a><span class="ot">divide ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Int</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a>divide <span class="dv">0</span> <span class="dv">0</span> <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a>divide x y <span class="ot">=</span> <span class="dt">Just</span> (x <span class="op">/</span> y)</span></code></pre></div>
 <p><code>Just</code> is proof that there is indeed a value<br />
 and its safe to access the value without an exception</p></section>
-<section><section id="type-classes" class="title-slide slide level2"><h2>Type-classes</h2><ul>
-<li>Sets of types with the same behavior
-<ul>
-<li>Somewhat like interfaces in Java</li>
-<li>Can be hierarchical</li>
-<li>The proof that the type is a member of the set is called an instance</li>
-</ul></li>
-</ul></section><section id="examples" class="title-slide slide level3"><h3>Examples</h3><table>
-<thead>
-<tr class="header">
-<th>TypeClass\Types</th>
-<th style="text-align: center;">Int</th>
-<th style="text-align: right;">String</th>
-<th>Bool</th>
-<th>List a</th>
-<th>Maybe a</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>Show</code> (representable as String)</td>
-<td style="text-align: center;">T</td>
-<td style="text-align: right;">T</td>
-<td>T</td>
-<td>Show a</td>
-<td>Show a</td>
-</tr>
-<tr class="even">
-<td><code>Eq</code></td>
-<td style="text-align: center;">T</td>
-<td style="text-align: right;">T</td>
-<td>T</td>
-<td>Eq a</td>
-<td>Eq a</td>
-</tr>
-<tr class="odd">
-<td><code>Ord</code></td>
-<td style="text-align: center;">T</td>
-<td style="text-align: right;">T</td>
-<td>T</td>
-<td>Ord a</td>
-<td>Ord a</td>
-</tr>
-<tr class="even">
-<td><code>Semiring</code> (add, zero, mul, one)</td>
-<td style="text-align: center;">T</td>
-<td style="text-align: right;">F</td>
-<td>F</td>
-<td>F</td>
-<td>F</td>
-</tr>
-<tr class="odd">
-<td><code>Semigroup/Monoid</code> (append/empty)</td>
-<td style="text-align: center;">?</td>
-<td style="text-align: right;">T</td>
-<td>?</td>
-<td>T</td>
-<td>Semigroup a</td>
-</tr>
-</tbody>
-</table></section></section>
 <section><section id="pure-functions" class="title-slide slide level2"><h2>Pure functions</h2><ul>
 <li><code>a -&gt; b</code></li>
 <li>but what if we want more ?</li>
@@ -313,135 +327,87 @@ and its safe to access the value without an exception</p></section>
 <li><code>Parser a</code> - Consume some input and return an <code>a</code></li>
 <li><code>Effect a</code> - Nondeterministically get an <code>a</code></li>
 <li><code>Aff a</code> - An <code>Effect</code> ful callback which can consume an <code>a</code></li>
-</ul></section></section>
-<section><section id="functors" class="title-slide slide level2"><h2>Functors</h2><ul>
-<li>Think containers or producers</li>
-<li>Purescript’s <code>map</code> is polymorphic in the container type and the contained value.
-<ul>
-<li>As long as the container type is mappable</li>
-</ul></li>
-</ul>
-<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1"></a>  <span class="kw">class</span> <span class="dt">Functor</span> f <span class="kw">where</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="ot">    map ::</span> <span class="kw">forall</span> f a b<span class="op">.</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</span>
-<span id="cb21-3"><a href="#cb21-3"></a></span>
-<span id="cb21-4"><a href="#cb21-4"></a>  <span class="op">&gt;</span> <span class="op">:</span><span class="kw">type</span> <span class="fu">map</span></span>
-<span id="cb21-5"><a href="#cb21-5"></a>  <span class="kw">forall</span> a b f<span class="op">.</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</span>
-<span id="cb21-6"><a href="#cb21-6"></a></span>
-<span id="cb21-7"><a href="#cb21-7"></a><span class="ot">  incOver ::</span> <span class="ot">∀</span> f<span class="op">.</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> f <span class="dt">Int</span> <span class="ot">-&gt;</span> f <span class="dt">Int</span></span>
-<span id="cb21-8"><a href="#cb21-8"></a>  incOver <span class="ot">=</span> <span class="fu">map</span> increment</span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1"></a>  <span class="kw">data</span> <span class="dt">List</span> a <span class="ot">=</span> <span class="dt">Nil</span> <span class="op">|</span> <span class="dt">Cons</span> a (<span class="dt">List</span> a)</span></code></pre></div></section><section id="list-is-mappable" class="title-slide slide level3"><h3>List is mappable</h3><div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1"></a>  <span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">List</span> <span class="kw">where</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a>    <span class="fu">map</span> f <span class="dt">Nil</span>         <span class="ot">=</span> <span class="dt">Nil</span></span>
-<span id="cb23-3"><a href="#cb23-3"></a>    <span class="fu">map</span> f (<span class="dt">Cons</span> a as) <span class="ot">=</span> <span class="dt">Cons</span> (f a) (<span class="fu">map</span> f as)</span></code></pre></div></section><section id="but-also" class="title-slide slide level3"><h3>But also</h3><ul>
-<li><code>Maybe a</code></li>
-<li><code>Tuple a b</code></li>
-<li><code>Reader r a</code></li>
-<li><code>Writer w a</code></li>
-<li><code>State s a</code></li>
-<li><code>Parser a</code></li>
-<li><code>Effect a</code></li>
-<li><code>Aff a</code></li>
-</ul></section><section id="this-is-unlawful" class="title-slide slide level3"><h3>This is unlawful</h3><div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1"></a>  <span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">List</span> <span class="kw">where</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a>    <span class="fu">map</span> f <span class="dt">Nil</span>         <span class="ot">=</span> <span class="dt">Nil</span></span>
-<span id="cb24-3"><a href="#cb24-3"></a>    <span class="fu">map</span> f (<span class="dt">Cons</span> a as) <span class="ot">=</span> <span class="dt">Nil</span></span></code></pre></div>
-<p>difficult to reason about.</p></section></section>
-<section><section id="section-2" class="title-slide slide level2"><h2></h2><ul>
-<li><code>map</code> cannot
-<ul>
-<li>change the structure of the container</li>
-<li>access the producer<br />
-</li>
-</ul></li>
-<li>what if we need to?</li>
-</ul></section><section id="monads" class="title-slide slide level3"><h3>Monads</h3><div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">class</span> <span class="dt">Monad</span> m <span class="kw">where</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="ot">  bind ::</span> <span class="kw">forall</span> a b<span class="op">.</span> m a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b</span>
-<span id="cb25-3"><a href="#cb25-3"></a></span>
-<span id="cb25-4"><a href="#cb25-4"></a><span class="op">&gt;</span> <span class="op">:</span><span class="kw">type</span> bind <span class="co">-- The operator equivalent is &gt;&gt;=</span></span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="kw">forall</span> f a b<span class="op">.</span> <span class="dt">Monad</span> f <span class="ot">=&gt;</span> f a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> f b) <span class="ot">-&gt;</span> f b</span>
-<span id="cb25-6"><a href="#cb25-6"></a></span>
-<span id="cb25-7"><a href="#cb25-7"></a><span class="op">&gt;</span> <span class="op">:</span><span class="kw">type</span>  (<span class="op">=&lt;&lt;</span>) <span class="co">-- bind -- (Flipped)</span></span>
-<span id="cb25-8"><a href="#cb25-8"></a><span class="kw">forall</span> f a b<span class="op">.</span> <span class="dt">Monad</span> f <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> f b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</span>
-<span id="cb25-9"><a href="#cb25-9"></a></span>
-<span id="cb25-10"><a href="#cb25-10"></a><span class="op">&gt;</span> <span class="op">:</span><span class="kw">type</span> <span class="fu">pure</span></span>
-<span id="cb25-11"><a href="#cb25-11"></a><span class="kw">forall</span> a f<span class="op">.</span> <span class="dt">Monad</span> f <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> f a</span></code></pre></div></section><section id="lists-are-monads" class="title-slide slide level3"><h3>Lists are Monads</h3><div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">instance</span> <span class="dt">Monad</span> <span class="dt">List</span> <span class="kw">where</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a>  bind f <span class="dt">Nil</span> <span class="ot">=</span> <span class="dt">Nil</span></span>
-<span id="cb26-3"><a href="#cb26-3"></a>  bind f (<span class="dt">Cons</span> a as) <span class="ot">=</span> </span>
-<span id="cb26-4"><a href="#cb26-4"></a>    f a <span class="op">&lt;&gt;</span> bind f as</span>
-<span id="cb26-5"><a href="#cb26-5"></a>    <span class="kw">where</span></span>
-<span id="cb26-6"><a href="#cb26-6"></a>    <span class="dt">Nil</span> <span class="op">&lt;&gt;</span> x <span class="ot">=</span> x</span>
-<span id="cb26-7"><a href="#cb26-7"></a>    x <span class="op">&lt;&gt;</span> <span class="dt">Nil</span> <span class="ot">=</span> x</span>
-<span id="cb26-8"><a href="#cb26-8"></a>    (<span class="dt">Cons</span> x xs) <span class="op">&lt;&gt;</span> ys <span class="ot">=</span> <span class="dt">Cons</span> x (xs <span class="op">&lt;&gt;</span> ys)</span>
-<span id="cb26-9"><a href="#cb26-9"></a></span>
-<span id="cb26-10"><a href="#cb26-10"></a><span class="ot">incOverEvens ::</span> <span class="dt">List</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">List</span> <span class="dt">Int</span></span>
-<span id="cb26-11"><a href="#cb26-11"></a>incOverEvens xs <span class="ot">=</span> </span>
-<span id="cb26-12"><a href="#cb26-12"></a>  (<span class="op">=&lt;&lt;</span>) </span>
-<span id="cb26-13"><a href="#cb26-13"></a>    (\i <span class="ot">-&gt;</span> <span class="kw">if</span> isEven i <span class="kw">then</span> <span class="dt">Cons</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="dt">Nil</span> <span class="kw">else</span> <span class="dt">Cons</span> i <span class="dt">Nil</span>)</span>
-<span id="cb26-14"><a href="#cb26-14"></a>    xs</span></code></pre></div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1"></a><span class="op">&gt;</span> incOverEvens [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>]</span>
-<span id="cb27-2"><a href="#cb27-2"></a>[<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">8</span>]</span></code></pre></div></section><section id="do-blocks" class="title-slide slide level3"><h3><code>do</code> blocks</h3><ul>
+</ul></section><section id="monads" class="title-slide slide level3"><h3>Monads</h3><ul>
+<li>Computation builders</li>
+<li>Almost all programming patterns can be expressed in monads</li>
+</ul></section><section id="do-blocks" class="title-slide slide level3"><h3><code>do</code> blocks</h3><ul>
 <li>Convenient syntactic sugar</li>
 </ul>
-<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1"></a><span class="ot">incOverEvens&#39; ::</span> <span class="dt">List</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">List</span> <span class="dt">Int</span></span>
-<span id="cb28-2"><a href="#cb28-2"></a>incOverEvens&#39; xs <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb28-3"><a href="#cb28-3"></a>  i <span class="ot">&lt;-</span> xs</span>
-<span id="cb28-4"><a href="#cb28-4"></a>  <span class="kw">if</span> isEven i <span class="kw">then</span> <span class="dt">Cons</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="dt">Nil</span> <span class="kw">else</span> <span class="dt">Nil</span></span></code></pre></div></section><section id="do-em-all" class="title-slide slide level3"><h3><code>do</code> ’em all</h3><div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1"></a><span class="co">-- Maybe</span></span>
-<span id="cb29-2"><a href="#cb29-2"></a><span class="ot">getLogTime ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">LocalTime</span></span>
-<span id="cb29-3"><a href="#cb29-3"></a>getLogTime logLine <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb29-4"><a href="#cb29-4"></a>  obj <span class="ot">&lt;-</span> Aeson.parse logLine</span>
-<span id="cb29-5"><a href="#cb29-5"></a>  metaData <span class="ot">&lt;-</span> Map.lookup obj <span class="st">&quot;meta_data&quot;</span></span>
-<span id="cb29-6"><a href="#cb29-6"></a>  timeStampStr <span class="ot">&lt;-</span> Map.lookup metaData <span class="st">&quot;log_time&quot;</span></span>
-<span id="cb29-7"><a href="#cb29-7"></a>  parseTime <span class="st">&quot;%d-%m-%Y %HH:%MM:%SS&quot;</span> timeStampStr</span></code></pre></div></section><section id="section-3" class="title-slide slide level3"><h3></h3><div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1"></a><span class="co">-- Aff</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a><span class="ot">getLastTxn ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Aff</span> (<span class="dt">Maybe</span> <span class="dt">Txn</span>)</span>
-<span id="cb30-3"><a href="#cb30-3"></a>getLastTxn customerId <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb30-4"><a href="#cb30-4"></a>  accounts <span class="ot">&lt;-</span> getAccounts customerId</span>
-<span id="cb30-5"><a href="#cb30-5"></a>  <span class="kw">if</span> <span class="fu">null</span> accounts </span>
-<span id="cb30-6"><a href="#cb30-6"></a>  <span class="kw">then</span> <span class="fu">pure</span> <span class="dt">Nothing</span></span>
-<span id="cb30-7"><a href="#cb30-7"></a>  <span class="kw">else</span> <span class="kw">do</span></span>
-<span id="cb30-8"><a href="#cb30-8"></a>    txns <span class="ot">&lt;-</span> for accounts getTxns</span>
-<span id="cb30-9"><a href="#cb30-9"></a>    <span class="fu">pure</span> (maximumBy (<span class="fu">compare</span> <span class="ot">`on`</span> txnDate) txns)</span></code></pre></div></section></section>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1"></a>factors x <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>y <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="op">..</span> (ceil <span class="op">$</span> M.sqrt(toNumber x))</span>
+<span id="cb23-3"><a href="#cb23-3"></a>z <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="op">..</span>  (ceil <span class="op">$</span> M.sqrt(toNumber x))</span>
+<span id="cb23-4"><a href="#cb23-4"></a><span class="kw">if</span> y <span class="op">*</span> z <span class="op">==</span> x</span>
+<span id="cb23-5"><a href="#cb23-5"></a>  <span class="kw">then</span> <span class="fu">pure</span> y</span>
+<span id="cb23-6"><a href="#cb23-6"></a>  <span class="kw">else</span> <span class="fu">mempty</span></span></code></pre></div></section><section id="do-em-all" class="title-slide slide level3"><h3><code>do</code> ’em all</h3><div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1"></a><span class="co">-- Maybe</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="ot">getLogTime ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">LocalTime</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a>getLogTime logLine <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb24-4"><a href="#cb24-4"></a>  obj <span class="ot">&lt;-</span> Aeson.parse logLine</span>
+<span id="cb24-5"><a href="#cb24-5"></a>  metaData <span class="ot">&lt;-</span> Map.lookup obj <span class="st">&quot;meta_data&quot;</span></span>
+<span id="cb24-6"><a href="#cb24-6"></a>  timeStampStr <span class="ot">&lt;-</span> Map.lookup metaData <span class="st">&quot;log_time&quot;</span></span>
+<span id="cb24-7"><a href="#cb24-7"></a>  parseTime <span class="st">&quot;%d-%m-%Y %HH:%MM:%SS&quot;</span> timeStampStr</span></code></pre></div></section><section id="bye-bye-callbacks" class="title-slide slide level3"><h3>Bye bye callbacks</h3><div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1"></a><span class="co">-- Aff</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="ot">getLastTxn ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Aff</span> (<span class="dt">Maybe</span> <span class="dt">Txn</span>)</span>
+<span id="cb25-3"><a href="#cb25-3"></a>getLastTxn customerId <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a>  accounts <span class="ot">&lt;-</span> getAccounts customerId</span>
+<span id="cb25-5"><a href="#cb25-5"></a>  <span class="kw">if</span> <span class="fu">null</span> accounts </span>
+<span id="cb25-6"><a href="#cb25-6"></a>  <span class="kw">then</span> <span class="fu">pure</span> <span class="dt">Nothing</span></span>
+<span id="cb25-7"><a href="#cb25-7"></a>  <span class="kw">else</span> <span class="kw">do</span></span>
+<span id="cb25-8"><a href="#cb25-8"></a>    txns <span class="ot">&lt;-</span> for accounts getTxns</span>
+<span id="cb25-9"><a href="#cb25-9"></a>    <span class="fu">pure</span> (maximumBy (<span class="fu">compare</span> <span class="ot">`on`</span> txnDate) txns)</span></code></pre></div></section><section id="an-entire-app" class="title-slide slide level3"><h3>An entire app</h3><ul>
+<li>No details</li>
+</ul>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1"></a><span class="ot">billPayFlow ::</span> <span class="dt">Flow</span> <span class="dt">BillPayFailure</span> <span class="dt">StatusScreenAction</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a>billPayFlow <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a>  _            <span class="ot">&lt;-</span> UI.splashScreen</span>
+<span id="cb26-4"><a href="#cb26-4"></a>  operators    <span class="ot">&lt;-</span> Remote.fetchOperators</span>
+<span id="cb26-5"><a href="#cb26-5"></a>  operator     <span class="ot">&lt;-</span> UI.chooseOperator operators</span>
+<span id="cb26-6"><a href="#cb26-6"></a>  mobileNumber <span class="ot">&lt;-</span> UI.askMobileNumber</span>
+<span id="cb26-7"><a href="#cb26-7"></a>  amount       <span class="ot">&lt;-</span> UI.askAmount</span>
+<span id="cb26-8"><a href="#cb26-8"></a>  result       <span class="ot">&lt;-</span> Remote.payBill mobileNumber amount operator</span>
+<span id="cb26-9"><a href="#cb26-9"></a>  UI.billPayStatus mobileNumber amount result</span></code></pre></div></section></section>
 <section><section id="interacting-with-js" class="title-slide slide level2"><h2>Interacting with JS</h2></section><section id="importing-js-funcions" class="title-slide slide level3"><h3>Importing JS funcions</h3><ul>
 <li>Curried</li>
 </ul>
-<div class="sourceCode" id="cb31"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb31-1"><a href="#cb31-1"></a><span class="va">exports</span>.<span class="at">add</span> <span class="op">=</span> <span class="kw">function</span>(i) <span class="op">{</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a>  <span class="cf">return</span> <span class="kw">function</span>(j) <span class="op">{</span></span>
-<span id="cb31-3"><a href="#cb31-3"></a>      <span class="cf">return</span> i <span class="op">+</span> j<span class="op">;</span> </span>
-<span id="cb31-4"><a href="#cb31-4"></a>  <span class="op">};</span> </span>
-<span id="cb31-5"><a href="#cb31-5"></a><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1"></a>foreign <span class="kw">import</span> add :: <span class="dt">Int</span> -&gt; <span class="dt">Int</span> -&gt; <span class="dt">Int</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb27-1"><a href="#cb27-1"></a><span class="va">exports</span>.<span class="at">add</span> <span class="op">=</span> <span class="kw">function</span>(i) <span class="op">{</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>  <span class="cf">return</span> <span class="kw">function</span>(j) <span class="op">{</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a>      <span class="cf">return</span> i <span class="op">+</span> j<span class="op">;</span> </span>
+<span id="cb27-4"><a href="#cb27-4"></a>  <span class="op">};</span> </span>
+<span id="cb27-5"><a href="#cb27-5"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1"></a>foreign <span class="kw">import</span> add :: <span class="dt">Int</span> -&gt; <span class="dt">Int</span> -&gt; <span class="dt">Int</span></span></code></pre></div>
 <ul>
 <li>Uncurried</li>
 </ul>
-<div class="sourceCode" id="cb33"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb33-1"><a href="#cb33-1"></a><span class="va">exports</span>.<span class="at">add</span> <span class="op">=</span> <span class="kw">function</span>(i<span class="op">,</span> j) <span class="op">{</span> <span class="cf">return</span> i <span class="op">+</span> j<span class="op">;</span> <span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1"></a>foreign <span class="kw">import</span> add :: <span class="dt">Fn2</span> <span class="dt">Int</span> <span class="dt">Int</span> <span class="dt">Int</span></span></code></pre></div></section><section id="importing-js-types" class="title-slide slide level3"><h3>Importing JS types</h3></section><section id="primitives" class="title-slide slide level4"><h4>Primitives</h4><div class="sourceCode" id="cb35"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb35-1"><a href="#cb35-1"></a><span class="va">exports</span>.<span class="at">foo</span> <span class="op">=</span> <span class="st">&quot;bar&quot;</span><span class="op">;</span></span>
-<span id="cb35-2"><a href="#cb35-2"></a><span class="va">exports</span>.<span class="at">i</span> <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
-<span id="cb35-3"><a href="#cb35-3"></a><span class="va">exports</span>.<span class="at">hasProp</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb35-4"><a href="#cb35-4"></a><span class="va">exports</span>.<span class="at">arr</span> <span class="op">=</span> [<span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span>]<span class="op">;</span> </span>
-<span id="cb35-5"><a href="#cb35-5"></a><span class="co">// Cannot import an array with multiple types</span></span>
-<span id="cb35-6"><a href="#cb35-6"></a><span class="va">exports</span>.<span class="at">employee</span> <span class="op">=</span> <span class="op">{</span> <span class="dt">name</span><span class="op">:</span> <span class="st">&quot;Paul&quot;</span><span class="op">,</span> <span class="dt">company</span><span class="op">:</span> <span class="st">&quot;Juspay&quot;</span> <span class="op">};</span></span></code></pre></div>
-<div class="sourceCode" id="cb36"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1"></a>foreign <span class="kw">import</span> foo :: <span class="dt">String</span></span>
-<span id="cb36-2"><a href="#cb36-2"></a>foreign <span class="kw">import</span> i :: <span class="dt">Int</span></span>
-<span id="cb36-3"><a href="#cb36-3"></a>foreign <span class="kw">import</span> hasProp :: <span class="dt">Boolean</span></span>
-<span id="cb36-4"><a href="#cb36-4"></a>foreign <span class="kw">import</span> arr :: <span class="dt">Array</span> <span class="dt">Int</span></span>
-<span id="cb36-5"><a href="#cb36-5"></a>foreign <span class="kw">import</span> employee :: { name :: <span class="dt">String</span>, company :: <span class="dt">String</span> }</span></code></pre></div></section><section id="when-js-types-are-unknown" class="title-slide slide level4"><h4>When JS types are unknown</h4><div class="sourceCode" id="cb37"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb37-1"><a href="#cb37-1"></a><span class="va">exports</span>.<span class="at">foo</span> <span class="op">=</span> <span class="st">&quot;bar&quot;</span><span class="op">;</span></span></code></pre></div>
-<div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1"></a>foreign <span class="kw">import</span> foo :: <span class="dt">Foreign</span></span>
-<span id="cb38-2"><a href="#cb38-2"></a><span class="co">-- readString </span></span>
-<span id="cb38-3"><a href="#cb38-3"></a><span class="co">--   :: Foreign </span></span>
-<span id="cb38-4"><a href="#cb38-4"></a><span class="co">--   -&gt; F String -- Except MultipleErrors String</span></span>
-<span id="cb38-5"><a href="#cb38-5"></a><span class="ot">exclaimFoo ::</span> <span class="dt">F</span> <span class="dt">String</span></span>
-<span id="cb38-6"><a href="#cb38-6"></a>exclaimFoo <span class="ot">=</span> (\s <span class="ot">-&gt;</span> s <span class="op">&lt;&gt;</span> <span class="st">&quot;!!&quot;</span>) <span class="op">&lt;$&gt;</span> readString foo</span></code></pre></div></section><section id="exporting-purescript-funcions" class="title-slide slide level3"><h3>Exporting purescript funcions</h3><div class="sourceCode" id="cb39"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb39-1"><a href="#cb39-1"></a><span class="ot">  add ::</span> <span class="dt">Fn2</span> <span class="dt">Int</span> <span class="dt">Int</span> <span class="dt">Int</span></span>
-<span id="cb39-2"><a href="#cb39-2"></a>  add <span class="ot">=</span> mkFn2 add&#39;</span>
-<span id="cb39-3"><a href="#cb39-3"></a></span>
-<span id="cb39-4"><a href="#cb39-4"></a><span class="ot">  add&#39; ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
-<span id="cb39-5"><a href="#cb39-5"></a>  add&#39; i j <span class="ot">=</span> i <span class="op">+</span> j</span></code></pre></div>
-<div class="sourceCode" id="cb40"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb40-1"><a href="#cb40-1"></a><span class="co">// In the generated JS code.</span></span>
-<span id="cb40-2"><a href="#cb40-2"></a><span class="at">add</span>(<span class="dv">4</span><span class="op">,</span><span class="dv">2</span>)</span></code></pre></div></section><section id="effects-1" class="title-slide slide level3"><h3>Effects</h3><div class="sourceCode" id="cb41"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb41-1"><a href="#cb41-1"></a><span class="va">exports</span>.<span class="at">logFormatted</span> <span class="op">=</span> <span class="kw">function</span>(tag)<span class="op">{</span></span>
-<span id="cb41-2"><a href="#cb41-2"></a>  <span class="cf">return</span> <span class="kw">function</span>(message)<span class="op">{</span></span>
-<span id="cb41-3"><a href="#cb41-3"></a>    <span class="cf">return</span> <span class="kw">function</span>()<span class="op">{</span></span>
-<span id="cb41-4"><a href="#cb41-4"></a>      <span class="kw">var</span> dateStr <span class="op">=</span> (<span class="kw">new</span> Date).<span class="at">toISOString</span>()<span class="op">;</span></span>
-<span id="cb41-5"><a href="#cb41-5"></a>      <span class="va">console</span>.<span class="at">log</span>(<span class="st">&quot;[&quot;</span> <span class="op">+</span> tag <span class="op">+</span> <span class="st">&quot;] &quot;</span> <span class="op">+</span> dateStr <span class="op">+</span> message)<span class="op">;</span></span>
-<span id="cb41-6"><a href="#cb41-6"></a>    <span class="op">}</span></span>
-<span id="cb41-7"><a href="#cb41-7"></a>  <span class="op">}</span></span>
-<span id="cb41-8"><a href="#cb41-8"></a><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb42"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb42-1"><a href="#cb42-1"></a>foreign <span class="kw">import</span> logFormatted :: <span class="dt">String</span> -&gt; <span class="dt">String</span> -&gt; <span class="dt">Effect</span> <span class="dt">Unit</span></span></code></pre></div></section></section>
+<div class="sourceCode" id="cb29"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb29-1"><a href="#cb29-1"></a><span class="va">exports</span>.<span class="at">add</span> <span class="op">=</span> <span class="kw">function</span>(i<span class="op">,</span> j) <span class="op">{</span> <span class="cf">return</span> i <span class="op">+</span> j<span class="op">;</span> <span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1"></a>foreign <span class="kw">import</span> add :: <span class="dt">Fn2</span> <span class="dt">Int</span> <span class="dt">Int</span> <span class="dt">Int</span></span></code></pre></div></section><section id="importing-js-types" class="title-slide slide level3"><h3>Importing JS types</h3></section><section id="primitives" class="title-slide slide level4"><h4>Primitives</h4><div class="sourceCode" id="cb31"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb31-1"><a href="#cb31-1"></a><span class="va">exports</span>.<span class="at">foo</span> <span class="op">=</span> <span class="st">&quot;bar&quot;</span><span class="op">;</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="va">exports</span>.<span class="at">i</span> <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb31-3"><a href="#cb31-3"></a><span class="va">exports</span>.<span class="at">hasProp</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb31-4"><a href="#cb31-4"></a><span class="va">exports</span>.<span class="at">arr</span> <span class="op">=</span> [<span class="dv">1</span><span class="op">,</span><span class="dv">2</span><span class="op">,</span><span class="dv">3</span>]<span class="op">;</span> </span>
+<span id="cb31-5"><a href="#cb31-5"></a><span class="co">// Cannot import an array with multiple types</span></span>
+<span id="cb31-6"><a href="#cb31-6"></a><span class="va">exports</span>.<span class="at">employee</span> <span class="op">=</span> <span class="op">{</span> <span class="dt">name</span><span class="op">:</span> <span class="st">&quot;Paul&quot;</span><span class="op">,</span> <span class="dt">company</span><span class="op">:</span> <span class="st">&quot;Juspay&quot;</span> <span class="op">};</span></span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1"></a>foreign <span class="kw">import</span> foo :: <span class="dt">String</span></span>
+<span id="cb32-2"><a href="#cb32-2"></a>foreign <span class="kw">import</span> i :: <span class="dt">Int</span></span>
+<span id="cb32-3"><a href="#cb32-3"></a>foreign <span class="kw">import</span> hasProp :: <span class="dt">Boolean</span></span>
+<span id="cb32-4"><a href="#cb32-4"></a>foreign <span class="kw">import</span> arr :: <span class="dt">Array</span> <span class="dt">Int</span></span>
+<span id="cb32-5"><a href="#cb32-5"></a>foreign <span class="kw">import</span> employee :: { name :: <span class="dt">String</span>, company :: <span class="dt">String</span> }</span></code></pre></div></section><section id="when-js-types-are-unknown" class="title-slide slide level4"><h4>When JS types are unknown</h4><div class="sourceCode" id="cb33"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb33-1"><a href="#cb33-1"></a><span class="va">exports</span>.<span class="at">foo</span> <span class="op">=</span> <span class="st">&quot;bar&quot;</span><span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1"></a>foreign <span class="kw">import</span> foo :: <span class="dt">Foreign</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a><span class="co">-- readString </span></span>
+<span id="cb34-3"><a href="#cb34-3"></a><span class="co">--   :: Foreign </span></span>
+<span id="cb34-4"><a href="#cb34-4"></a><span class="co">--   -&gt; F String -- Except MultipleErrors String</span></span>
+<span id="cb34-5"><a href="#cb34-5"></a><span class="ot">exclaimFoo ::</span> <span class="dt">F</span> <span class="dt">String</span></span>
+<span id="cb34-6"><a href="#cb34-6"></a>exclaimFoo <span class="ot">=</span> (\s <span class="ot">-&gt;</span> s <span class="op">&lt;&gt;</span> <span class="st">&quot;!!&quot;</span>) <span class="op">&lt;$&gt;</span> readString foo</span></code></pre></div></section><section id="exporting-purescript-funcions" class="title-slide slide level3"><h3>Exporting purescript funcions</h3><div class="sourceCode" id="cb35"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb35-1"><a href="#cb35-1"></a><span class="ot">  add ::</span> <span class="dt">Fn2</span> <span class="dt">Int</span> <span class="dt">Int</span> <span class="dt">Int</span></span>
+<span id="cb35-2"><a href="#cb35-2"></a>  add <span class="ot">=</span> mkFn2 add&#39;</span>
+<span id="cb35-3"><a href="#cb35-3"></a></span>
+<span id="cb35-4"><a href="#cb35-4"></a><span class="ot">  add&#39; ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb35-5"><a href="#cb35-5"></a>  add&#39; i j <span class="ot">=</span> i <span class="op">+</span> j</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb36-1"><a href="#cb36-1"></a><span class="co">// In the generated JS code.</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a><span class="at">add</span>(<span class="dv">4</span><span class="op">,</span><span class="dv">2</span>)</span></code></pre></div></section><section id="effects-1" class="title-slide slide level3"><h3>Effects</h3><div class="sourceCode" id="cb37"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb37-1"><a href="#cb37-1"></a><span class="va">exports</span>.<span class="at">logFormatted</span> <span class="op">=</span> <span class="kw">function</span>(tag)<span class="op">{</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a>  <span class="cf">return</span> <span class="kw">function</span>(message)<span class="op">{</span></span>
+<span id="cb37-3"><a href="#cb37-3"></a>    <span class="cf">return</span> <span class="kw">function</span>()<span class="op">{</span></span>
+<span id="cb37-4"><a href="#cb37-4"></a>      <span class="kw">var</span> dateStr <span class="op">=</span> (<span class="kw">new</span> Date).<span class="at">toISOString</span>()<span class="op">;</span></span>
+<span id="cb37-5"><a href="#cb37-5"></a>      <span class="va">console</span>.<span class="at">log</span>(<span class="st">&quot;[&quot;</span> <span class="op">+</span> tag <span class="op">+</span> <span class="st">&quot;] &quot;</span> <span class="op">+</span> dateStr <span class="op">+</span> message)<span class="op">;</span></span>
+<span id="cb37-6"><a href="#cb37-6"></a>    <span class="op">}</span></span>
+<span id="cb37-7"><a href="#cb37-7"></a>  <span class="op">}</span></span>
+<span id="cb37-8"><a href="#cb37-8"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1"></a>foreign <span class="kw">import</span> logFormatted :: <span class="dt">String</span> -&gt; <span class="dt">String</span> -&gt; <span class="dt">Effect</span> <span class="dt">Unit</span></span></code></pre></div></section></section>
 <section id="purescript-web-frameworks" class="title-slide slide level2"><h2>Purescript web frameworks</h2><ul>
 <li>Elm like
 <ul>
@@ -465,13 +431,13 @@ and its safe to access the value without an exception</p></section>
 <li>Heavily used
 <ul>
 <li>both on the backend and mobile UI</li>
-<li>frontend count &gt; 10000 LOC</li>
+<li>frontend count &gt; 100000 LOC</li>
+<li>used for both for markup and business logic</li>
 </ul></li>
 <li>English like code
 <ul>
 <li><code>DSL</code>s using <code>Free Monad</code>s</li>
 </ul></li>
-<li>Bye bye callbacks</li>
 </ul></section>
     </div>
   </div>

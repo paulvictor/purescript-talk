@@ -27,20 +27,30 @@ maxScale: 1
   ```
   ???
 
+###
+
+  >  JS IS AN ESSENTIAL EVIL !!
+
+  ![](js.jpg "Javascript")
+
 ## About Purescript
   * A pure functional (Haskell inspired) language
     + Written in Haskell
     + Non - lazy evaluation (like JS)
 
-  * Compiles to JS (and optionally to other backends)
-
-  * Supports 
-    + higher kinded types
-    + poly kinds
-    + row polymorphism 
-    + generic programming 
+  * Compiles to JS <!-- (and optionally to other backends) -->
 
   * Easy javascript FFI
+
+  * Find bugs as you type
+
+  * Let the compiler guide you while writing code
+  <!--* Supports -->
+    <!--+ higher kinded types-->
+    <!--+ poly kinds-->
+    <!--+ row polymorphism -->
+    <!--+ generic programming -->
+
 
 ### Tools
 #### start
@@ -82,94 +92,168 @@ maxScale: 1
 
 ## Comparison with other *compile to JS* frameworks
 
-### Typescript
-  * More concise syntax
-  * Better and stricter type inference
-  * Not a superset of JS
-
-### Elm
-  * More polymorphic
-  * Support for type classes
-  * No runtime
-
 ### Clojurescript
   * Static
-  * Pure
-  * Easier ways to do polymorphism
+    + Types can actually avoid a whole class of bugs
+  * Purescript is pure
+    + No side effects without making them explicit
 
-<!--### Scala.js-->
-  <!------------------------------------------------------------------------>
-  <!--Scala.js                                       Purescript-->
-  <!------------------------------- ---------------------------------------->
-  <!--```                                     -->
-  <!--println("Hello World!")                    log "Hello World!"-->
-                                             
-                                             
-  <!--class Person                               type Person = -->
-   <!--( val firstName: String                       { firstName :: String-->
-   <!--, val lastName: String) {                     , lastName :: String }-->
-     <!--def fullName(): String =                  -->
-       <!--s"$firstName $lastName"               fullName :: Person -> String-->
-   <!--}                                         fullName p = -->
-                                             <!--p.firstName <> " " <> p.lastName-->
-                                             
-  <!--val names =                                names = _.firstName <$> persons-->
-    <!--persons.map(_.firstName)                 -->
-                                             
-  <!--val personMap = Map(                       personMap = Map.fromFoldable-->
-    <!--10 -> new Person("Roger", "Moore"),        [ (10, rogerMoore)-->
-    <!--20 -> new Person("James", "Bond")          , (20, jamesBond)-->
-  <!--)                                            ]-->
-  <!--val names = for {                          names = -->
-    <!--(key, person) <- personMap                 map (\(k, v) -> -->
-                                                <!--show k <> " = " <> v.firstName)-->
-    <!--if key > 15                                <<< Map.toUnfoldable-->
-  <!--} yield s"$key = ${person.firstName}"        <<< Map.filterKeys (_ > 15)-->
-  <!--```-->
-  <!------------------------------------------------------------------------>
+### Typescript
 
+#### Can be more verbose than JS
+
+  ```javascript
+  let apolloContext;
+  export function getApolloContext() {
+    if (!apolloContext) {
+      apolloContext = React.createContext({});
+    }
+    return apolloContext;
+  }
+  export function resetApolloContext() {
+    apolloContext = React.createContext({});
+  }
+  ```
+
+  ```typescript
+  export interface ApolloContextValue {
+    client?: ApolloClient<object>;
+    renderPromises?: Record<any, any>;
+  }
+  let apolloContext: React.Context<ApolloContextValue>;
+  export function getApolloContext() {
+    if (!apolloContext) {
+      apolloContext = React.createContext<ApolloContextValue>({});
+    }
+    return apolloContext;
+  }
+  export function resetApolloContext() {
+    apolloContext = React.createContext<ApolloContextValue>({});
+  }
+  ```
+
+####
+
+  > The only thing worse than being blind is having sight but no vision.  
+  >  - Helen Keller
+
+#### With Typescript
+  * Trust the dev to write proper types
+  * `any` can be a problem
+    + `unknown` still doesn't cut it right
+  * No protection against side effects  
+  * Immutability only by choice
+
+####  Purescript vs Typescript
+
+  * Separation of `effect`full code from others
+    ```haskell
+      add :: Int -> Int -> Int
+      add x y = x + y
+    ```
+
+    ```typescript
+      function add(a: number, b: number):number {
+        var resultFromCache = 
+          addCache.lookup(keyFrom(a,b));
+        if (resultFromCache == null){
+          var result = a + b;
+          // some code to insert into the addCache
+          return result;
+        } else {
+          return resultFromCache;
+        }
+      }
+    ```
+
+#### Same code in Purescript
+
+  ```haskell
+  add :: Int -> Int -> Effect Int
+  add x y = do
+    maybeResult <-
+      lookup addCache $
+        keyFrom x y
+    case maybeResult of
+      Just r -> pure r
+      Nothing -> do
+        result <- pure $ x + y
+        insert addCache (keyFor x y) result
+        pure result
+  ```
+
+#### More brownie points
+  * More concise syntax
+  * Compiler doesn't let you push incomplete functions through
+    + Exhaustive Pattern matching
+  * Type hole drived development
+  * Complemented by the superior type inference mechanism
+
+#### Purescript @ Juspay
+  * Looking at the type signature of a function tells a lot about it
+  * You can't really mess up a pure function
+    + Write tests for your pure code
+    + Review your impure code
+    + Keep impurities to a minimum and at the fringes
+  * Write production-ready code
+  * ART 
+    + Automatic Regression Testing
 
 ## Why you should consider strong types
+
+###
+
+  > A good friend will always stab you in the front  
+  >  - Oscar Wilde
+
+###
+
   * Change a huge class of runtime bugs into compile time errors
     ```haskell
       employee = { name: "Paul", company: "Juspay" }
       log(toUpper(employee.email)) -- A compile error
     ```
+
   * Better debugging
-  * Easier development
+
+  * Better development cycles
 
 ## Overview of types in Purescript
   Types are _disjoint_ sets of values  
   No _subtyping_ in the traditional sense (except with row polymorphism)
 
 ### Sum types
-  - Cardinality is the sum of cardinalities
+  - Used to denote alternatives
   - Correspond to enums in most programming languages
 
+  <!--```haskell-->
+  <!--data Either a b -- Either is the Type Constructor-->
+    <!--= Left a-->
+    <!--| Right b -- Left and Right are Data Constructors-->
+  <!--```-->
+  <!--```haskell-->
+  <!--Left :: a -> Either a b-->
+  <!--```-->
+
   ```haskell
-  data Either a b -- Either is the Type Constructor
-    = Left a
-    | Right b -- Left and Right are Data Constructors
-  ```
-  ```haskell
-  Left :: forall a b. a -> Either a b
-  ```
-  ```haskell
-  data PaymentStatus
-    = SuccessAmountPaid Double
-    | UnAuthenticated
-    | GatewayTimeout
-    | NotSufficientBalance
+  data HTTPMethod
+    = GET
+    | HEAD
+    | POST
+    | PATCH
+    | DELETE
+    | Other String
   ```
 
 ### Product types
-  - Cardinality is the product of cardinalities
+  - Used to denote combination of values
   - Correspond to structs, objects in most programming languages
 
-  ```haskell
-  data Tuple a b 
-    = Tuple a b
-  ```
+  <!--```haskell-->
+  <!--data Tuple a b -->
+    <!--= Tuple a b-->
+  <!--```-->
+
   ```haskell
   data Customer
     = Customer 
@@ -222,6 +306,8 @@ maxScale: 1
   move W (Coordinates { x, y }) = Coordinates { x: x - 1, y }
   ```
 
+  * Matching patterns has to be complete
+
 ### Partial Application
   ```haskell
   moveNorth :: Coordinates -> Coordinates
@@ -252,22 +338,6 @@ maxScale: 1
   `Just` is proof that there is indeed a value  
   and its safe to access the value without an exception
 
-## Type-classes
-  * Sets of types with the same behavior
-    + Somewhat like interfaces in Java
-    + Can be hierarchical
-    + The proof that the type is a member of the set is called an instance
-
-### Examples
-
-TypeClass\\Types                    Int   String   Bool   List a    Maybe a
----------------                   ------ -------   ----   ------    -------
-`Show` (representable as String)     T      T         T      Show a    Show a
-`Eq`                                 T      T         T      Eq a      Eq a
-`Ord`                                T      T         T      Ord a     Ord a
-`Semiring` (add, zero, mul, one)     T      F         F       F         F
-`Semigroup/Monoid` (append/empty)    ?      T         ?       T        Semigroup a
-
 ## Pure functions 
   * `a -> b`
   * but what if we want more ?
@@ -283,102 +353,19 @@ TypeClass\\Types                    Int   String   Bool   List a    Maybe a
   * `Effect a` - Nondeterministically get an `a`
   * `Aff a` - An `Effect` ful callback which can consume an `a`
 
-## Functors
-  * Think containers or producers
-  * Purescript's `map` is polymorphic in the container type and the contained value.
-    + As long as the container type is mappable
-
-  ```haskell
-    class Functor f where
-      map :: forall f a b. (a -> b) -> f a -> f b
-
-    > :type map
-    forall a b f. Functor f => (a -> b) -> f a -> f b
-
-    incOver :: ∀ f. Functor f => f Int -> f Int
-    incOver = map increment
-  ```
-
-  ```haskell
-    data List a = Nil | Cons a (List a)
-  ```
-### List is mappable
-
-  ```haskell
-    instance Functor List where
-      map f Nil         = Nil
-      map f (Cons a as) = Cons (f a) (map f as)
-  ```
-
-### But also
-  * `Maybe a`
-  * `Tuple a b`
-  * `Reader r a`
-  * `Writer w a`
-  * `State s a`
-  * `Parser a`
-  * `Effect a`
-  * `Aff a`
-
-### This is unlawful
-
-  ```haskell
-    instance Functor List where
-      map f Nil         = Nil
-      map f (Cons a as) = Nil
-  ```
-  difficult to reason about.
-
-##  
-  * `map` cannot 
-    * change the structure of the container 
-    * access the producer  
-  * what if we need to?
-
 ### Monads
-  ```haskell
-  class Monad m where
-    bind :: forall a b. m a -> (a -> m b) -> m b
-
-  > :type bind -- The operator equivalent is >>=
-  forall f a b. Monad f => f a -> (a -> f b) -> f b
-
-  > :type  (=<<) -- bind -- (Flipped)
-  forall f a b. Monad f => (a -> f b) -> f a -> f b
-
-  > :type pure
-  forall a f. Monad f => a -> f a
-  ```
-### Lists are Monads
-  ```haskell
-  instance Monad List where
-    bind f Nil = Nil
-    bind f (Cons a as) = 
-      f a <> bind f as
-      where
-      Nil <> x = x
-      x <> Nil = x
-      (Cons x xs) <> ys = Cons x (xs <> ys)
-
-  incOverEvens :: List Int -> List Int
-  incOverEvens xs = 
-    (=<<) 
-      (\i -> if isEven i then Cons (i + 1) Nil else Cons i Nil)
-      xs
-  ```
-  ```haskell
-  > incOverEvens [1,2,3,4]
-  [1,4,3,8]
-  ```
+  * Computation builders
+  * Almost all programming patterns can be expressed in monads
 
 ### `do` blocks  
   + Convenient syntactic sugar 
-
   ```haskell
-  incOverEvens' :: List Int -> List Int
-  incOverEvens' xs = do
-    i <- xs
-    if isEven i then Cons (i + 1) Nil else Nil
+  factors x = do
+  y <- 2 .. (ceil $ M.sqrt(toNumber x))
+  z <- 2 ..  (ceil $ M.sqrt(toNumber x))
+  if y * z == x
+    then pure y
+    else mempty
   ```
 
 ### `do` 'em all
@@ -392,7 +379,7 @@ TypeClass\\Types                    Int   String   Bool   List a    Maybe a
     parseTime "%d-%m-%Y %HH:%MM:%SS" timeStampStr
   ```
 
-###  
+### Bye bye callbacks  
   ```haskell
   -- Aff
   getLastTxn :: String -> Aff (Maybe Txn)
@@ -403,6 +390,20 @@ TypeClass\\Types                    Int   String   Bool   List a    Maybe a
     else do
       txns <- for accounts getTxns
       pure (maximumBy (compare `on` txnDate) txns)
+  ```
+
+### An entire app
+  * No details
+  ```haskell
+  billPayFlow :: Flow BillPayFailure StatusScreenAction
+  billPayFlow = do
+    _            <- UI.splashScreen
+    operators    <- Remote.fetchOperators
+    operator     <- UI.chooseOperator operators
+    mobileNumber <- UI.askMobileNumber
+    amount       <- UI.askAmount
+    result       <- Remote.payBill mobileNumber amount operator
+    UI.billPayStatus mobileNumber amount result
   ```
 
 ## Interacting with JS
@@ -503,6 +504,6 @@ TypeClass\\Types                    Int   String   Bool   List a    Maybe a
   * Heavily used
     + both on the backend and mobile UI
     + frontend count > 100000 LOC
+    + used for both for markup and business logic
   * English like code 
     + `DSL`s using `Free Monad`s
-  * Bye bye callbacks
