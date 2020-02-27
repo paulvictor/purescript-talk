@@ -14,18 +14,18 @@ main = do
 
 data FizzBuzz = Fizz | Buzz | FizzBuzz | NonFB Int
 
-fizzBuzz :: Partial ⇒ Int → FizzBuzz
+fizzBuzz :: Int → FizzBuzz
 fizzBuzz x
   | x `rem` 3 == 0
     && x `rem` 5 == 0 = FizzBuzz
   | x `rem` 3 == 0 = Fizz
   | x `rem` 5 == 0 = Buzz
-{--fizzBuzz x = NonFB x--}
+fizzBuzz x = NonFB x
 
 fizzBuzzes = map fizzBuzz
 
-x :: Partial ⇒ Array FizzBuzz
-x = map fizzBuzz (1..100)
+x :: Array FizzBuzz
+x = ?foo fizzBuzz (1..100)
 
 factors x = do
   y <- 2 .. (ceil $ M.sqrt(toNumber x))

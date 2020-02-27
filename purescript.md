@@ -29,7 +29,7 @@ maxScale: 1
 
 ###
 
-  >  JS IS AN ESSENTIAL EVIL !!
+  In summary...
 
   ![](js.jpg "Javascript")
 
@@ -42,63 +42,21 @@ maxScale: 1
 
   * Easy javascript FFI
 
-  * Find bugs as you type
-
-  * Let the compiler guide you while writing code
   <!--* Supports -->
     <!--+ higher kinded types-->
     <!--+ poly kinds-->
     <!--+ row polymorphism -->
     <!--+ generic programming -->
 
+## Comparison with other *compile to JS* languages
 
-### Tools
-#### start
-  ```bash
-  $ npm i -g purescript pulp
-  $ mkdir trial; cd trial
-  $ pulp init
-  $ tree -a -L 2
-  .
-  ├── bower_components
-  │   ├── purescript-console
-  │   ├── purescript-effect
-  │   ├── purescript-prelude
-  │   └── purescript-psci-support
-  ├── bower.json
-  ├── .gitignore
-  ├── .purs-repl
-  ├── src
-  │   └── Main.purs
-  └── test
-      └── Main.purs
-
-  7 directories, 5 files
-  ```
-#### repl
-  ```bash
-  $ pulp repl
-  PSCi, version 0.12.2
-  Type :? for help
-
-  import Prelude
-
-  > import Data.Monoid
-  > :type (+)
-  forall a. Semiring a => a -> a -> a
-
-  >
-  ```
-
-## Comparison with other *compile to JS* frameworks
-
-### Clojurescript
-  * Static
+### Clojurescript vs Purescript
+  * Purescript is Static
     + Types can actually avoid a whole class of bugs
   * Purescript is pure
     + No side effects without making them explicit
 
-### Typescript
+### Typescript vs Purescript
 
 #### Can be more verbose than JS
 
@@ -139,14 +97,15 @@ maxScale: 1
 
 #### With Typescript
   * Trust the dev to write proper types
+  * Immutability only by choice
   * `any` can be a problem
     + `unknown` still doesn't cut it right
+  * Is a superset of Javascript
   * No protection against side effects  
-  * Immutability only by choice
 
 ####  Purescript vs Typescript
 
-  * Separation of `effect`full code from others
+  * Separation of `effect` full code from others
     ```haskell
       add :: Int -> Int -> Int
       add x y = x + y
@@ -154,17 +113,25 @@ maxScale: 1
 
     ```typescript
       function add(a: number, b: number):number {
-        var resultFromCache = 
-          addCache.lookup(keyFrom(a,b));
-        if (resultFromCache == null){
-          var result = a + b;
-          // some code to insert into the addCache
-          return result;
-        } else {
-          return resultFromCache;
-        }
+        return a + b;
       }
     ```
+
+#### A better add
+
+  ```typescript
+  function add(a: number, b: number):number {
+    var resultFromCache = 
+      addCache.lookup(keyFrom(a,b));
+    if (resultFromCache == null){
+      var result = a + b;
+      // some code to insert into the addCache
+      return result;
+    } else {
+      return resultFromCache;
+    }
+  }
+  ```
 
 #### Same code in Purescript
 
@@ -182,22 +149,31 @@ maxScale: 1
         pure result
   ```
 
+#### Or even better !!
+
+  ```haskell
+  -- type State s a = s -> (a, s)
+  add :: Int -> Int -> State CachedResults Int
+  add x y = do
+    addCache <- get
+    maybeResult <-
+      lookup addCache $
+        keyFrom x y
+    case maybeResult of
+      Just r -> pure r
+      Nothing -> do
+        result <- pure $ x + y
+        put $
+          insert addCache (keyFor x y) result
+        pure result
+  ```
+
 #### More brownie points
   * More concise syntax
   * Compiler doesn't let you push incomplete functions through
     + Exhaustive Pattern matching
   * Type hole drived development
-  * Complemented by the superior type inference mechanism
-
-#### Purescript @ Juspay
-  * Looking at the type signature of a function tells a lot about it
-  * You can't really mess up a pure function
-    + Write tests for your pure code
-    + Review your impure code
-    + Keep impurities to a minimum and at the fringes
-  * Write production-ready code
-  * ART 
-    + Automatic Regression Testing
+  * Complemented by the stricter type inference mechanism
 
 ## Why you should consider strong types
 
@@ -214,9 +190,21 @@ maxScale: 1
       log(toUpper(employee.email)) -- A compile error
     ```
 
-  * Better debugging
+  * Better debugging  
+     + Find bugs as you type
 
-  * Better development cycles
+  * Better development cycles  
+     + Let the compiler guide you while writing code
+
+#### Purescript @ Juspay
+  * Looking at the type signature of a function tells a lot about it
+  * You can't really mess up a pure function
+    + Write tests for your pure code
+    + Review your impure code
+    + Keep impurities to a minimum and at the fringes
+  * Write production-ready code
+  * ART 
+    + Automatic Regression Testing
 
 ## Overview of types in Purescript
   Types are _disjoint_ sets of values  
@@ -269,28 +257,26 @@ maxScale: 1
 
 ### Function types
 
-  ```haskell
-  -- Can't be defined
-  -- but we can assume this is the shape
-  data Function a b = Function (a -> b)
-  ```
-  a tabulation of inputs to outputs
+  * Think as a tabulation of inputs to outputs
+  * Impure functions are just dangling function calls (thunks)
 
-## Functions in detail
-  * All functions are curried.  
-    * they take a single argument and return a single argument  
-  ```haskell
-  add :: Int -> (Int -> Int)
-  add x y = x + y
-  -- or
-  add x = \y -> x + y
-  -- or
-  add = \x -> \y -> x + y
-  ```
-  * Partial Application
+### Functions in detail
+  * All functions are curried.
+  * 1 argument -> 1 argument  
+    ```haskell
+    add :: Int -> (Int -> Int)
+    add x y = x + y -- or
+    add x = \y -> x + y -- or
+    add = \x -> \y -> x + y
+    ```
+  * Partial Application for free
     ```haskell
     increment :: Int -> Int
     increment = add 1
+    ```
+    ```haskell
+    sum :: [ Int ] -> Int
+    sum = foldl (+) 0
     ```
 
 ### Pattern matching
@@ -326,6 +312,10 @@ maxScale: 1
   ```
 
 ## Scrap your _null_ checks and NPE's
+
+  >  I call it my billion-dollar mistake  
+  >  - Tony Hoare
+
   ```haskell
   data Maybe a = Nothing | Just a
   ```
@@ -335,7 +325,7 @@ maxScale: 1
   divide 0 0 = Nothing
   divide x y = Just (x / y)
   ```
-  `Just` is proof that there is indeed a value  
+  `Just` is a proof that there is indeed a value  
   and its safe to access the value without an exception
 
 ## Pure functions 
