@@ -29,6 +29,10 @@ maxScale: 1
 
 ###
 
+  ![](node.png "Node weirdness")
+
+###
+
   In summary...
 
   ![](js.jpg "Javascript")

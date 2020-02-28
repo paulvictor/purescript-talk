@@ -103,8 +103,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="purescript---js-you-can-reason-about" class="title-slide slide level2"><h2>Purescript - JS you can <em>reason</em> about</h2><p>Paul Victor Raj <span class="citation" data-cites="JUSPAY">@JUSPAY</span></p></section>
 <section><section id="guess-what-is-the-output" class="title-slide slide level2"><h2>Guess what is the output?</h2></section><section id="section" class="title-slide slide level3"><h3></h3><div class="sourceCode" id="cb1"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1"></a><span class="at">parseInt</span>(<span class="st">&quot;10&quot;</span>)</span></code></pre></div>
 <p>???</p></section><section id="section-1" class="title-slide slide level3"><h3></h3><div class="sourceCode" id="cb2"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1"></a>[<span class="st">&quot;10&quot;</span><span class="op">,</span> <span class="st">&quot;10&quot;</span><span class="op">,</span> <span class="st">&quot;10&quot;</span><span class="op">,</span> <span class="st">&quot;10&quot;</span>].<span class="at">map</span>(parseInt)</span></code></pre></div>
-<p>???</p></section><section id="section-2" class="title-slide slide level3"><h3></h3><p>In summary…</p>
-<p><img data-src="js.jpg" title="Javascript" /></p></section></section>
+<p>???</p></section><section id="section-2" class="title-slide slide level3"><h3></h3><p><img data-src="node.png" title="Node weirdness" width="600" /></p></section><section id="section-3" class="title-slide slide level3"><h3></h3><p>In summary…</p>
+<p><img data-src="js.jpg" title="Javascript" width = "900" /></p></section></section>
 <section id="about-purescript" class="title-slide slide level2"><h2>About Purescript</h2><ul>
 <li><p>A pure functional (Haskell inspired) language</p>
 <ul>
@@ -147,7 +147,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-11"><a href="#cb4-11"></a><span class="op">}</span></span>
 <span id="cb4-12"><a href="#cb4-12"></a><span class="im">export</span> <span class="kw">function</span> <span class="fu">resetApolloContext</span>() <span class="op">{</span></span>
 <span id="cb4-13"><a href="#cb4-13"></a>  apolloContext <span class="op">=</span> <span class="va">React</span><span class="op">.</span><span class="fu">createContext</span><span class="op">&lt;</span>ApolloContextValue<span class="op">&gt;</span>(<span class="op">{}</span>)<span class="op">;</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="op">}</span></span></code></pre></div></section><section id="section-3" class="title-slide slide level4"><h4></h4><blockquote>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="op">}</span></span></code></pre></div></section><section id="section-4" class="title-slide slide level4"><h4></h4><blockquote>
 <p>The only thing worse than being blind is having sight but no vision.<br />
 - Helen Keller</p>
 </blockquote></section><section id="with-typescript" class="title-slide slide level4"><h4>With Typescript</h4><ul>
@@ -208,10 +208,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Type hole drived development</li>
 <li>Complemented by the stricter type inference mechanism</li>
 </ul></section></section>
-<section><section id="why-you-should-consider-strong-types" class="title-slide slide level2"><h2>Why you should consider strong types</h2></section><section id="section-4" class="title-slide slide level3"><h3></h3><blockquote>
+<section><section id="why-you-should-consider-strong-types" class="title-slide slide level2"><h2>Why you should consider strong types</h2></section><section id="section-5" class="title-slide slide level3"><h3></h3><blockquote>
 <p>A good friend will always stab you in the front<br />
 - Oscar Wilde</p>
-</blockquote></section><section id="section-5" class="title-slide slide level3"><h3></h3><ul>
+</blockquote></section><section id="section-6" class="title-slide slide level3"><h3></h3><ul>
 <li><p>Change a huge class of runtime bugs into compile time errors</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1"></a>  employee <span class="ot">=</span> { name<span class="op">:</span> <span class="st">&quot;Paul&quot;</span>, company<span class="op">:</span> <span class="st">&quot;Juspay&quot;</span> }</span>
 <span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">log</span>(<span class="fu">toUpper</span>(employee<span class="op">.</span>email)) <span class="co">-- A compile error</span></span></code></pre></div></li>
